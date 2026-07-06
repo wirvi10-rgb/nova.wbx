@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nova.WBX — A Cleaner Smile Starts Here</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --porcelain:#F7F8FA; --porcelain-dim:#EEF0F5;
+    --ink:#12172B; --ink-soft:#2A3050;
+    --uv:#6C4CE0; --uv-glow:#B9A6FF; --mint:#8FE3C7;
+    --steel:#8B93A7; --danger:#E8735A;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--porcelain); color:var(--ink); font-family:'Inter',sans-serif; line-height:1.5; overflow-x:hidden;}
+  h1,h2,h3,.display{font-family:'Space Grotesk',sans-serif;}
+  .mono{font-family:'IBM Plex Mono',monospace; letter-spacing:.02em;}
+  a{color:inherit; text-decoration:none;}
+  img{max-width:100%; display:block;}
+  .wrap{max-width:1120px; margin:0 auto; padding:0 28px;}
+  section{padding:76px 0; border-top:1px solid rgba(18,23,43,.08);}
+  .eyebrow{display:inline-flex; align-items:center; gap:8px; font-size:12.5px; color:var(--uv); font-weight:500; background:rgba(108,76,224,.08); border:1px solid rgba(108,76,224,.2); padding:6px 14px; border-radius:999px; margin-bottom:20px;}
+  .head{max-width:580px; margin-bottom:40px;}
+  .head h2{font-size:clamp(26px,3.4vw,36px); font-weight:600; letter-spacing:-.01em; margin-bottom:12px;}
+  .head p{color:var(--ink-soft); font-size:16px;}
+
+  /* NAV */
+  nav{position:sticky; top:0; z-index:50; background:rgba(247,248,250,.85); backdrop-filter:blur(10px); border-bottom:1px solid rgba(18,23,43,.08);}
+  nav .wrap{display:flex; align-items:center; justify-content:space-between; height:72px;}
+  .logo{display:flex; align-items:center; gap:10px; font-weight:600; font-size:19px;}
+  .logo-dot{width:11px; height:11px; border-radius:50%; background:var(--uv); box-shadow:0 0 0 4px rgba(108,76,224,.18);}
+  .navlinks{display:flex; gap:32px; font-size:14.5px; color:var(--ink-soft);}
+  .navlinks a:hover{color:var(--uv);}
+  .nav-right{display:flex; align-items:center; gap:18px;}
+  .cart-btn{position:relative; font-size:20px; cursor:default;}
+  .cart-count{position:absolute; top:-6px; right:-10px; background:var(--uv); color:#fff; font-size:10px; font-family:'IBM Plex Mono'; padding:1px 5px; border-radius:999px;}
+  .nav-cta{background:var(--ink); color:var(--porcelain); padding:10px 20px; border-radius:999px; font-size:14px; font-weight:500; transition:.2s;}
+  .nav-cta:hover{background:var(--uv); transform:translateY(-1px);}
+  @media (max-width:820px){ .navlinks{display:none;} }
+
+  /* HERO */
+  .hero{padding:80px 0 60px; border-top:none;}
+  .hero-grid{display:grid; grid-template-columns:1.05fr .95fr; gap:56px; align-items:center;}
+  @media (max-width:900px){ .hero-grid{grid-template-columns:1fr;} }
+  .stars{font-size:13px; color:var(--ink-soft); margin-bottom:16px;}
+  .hero h1{font-size:clamp(38px,5.2vw,58px); line-height:1.04; font-weight:600; letter-spacing:-.02em; margin-bottom:20px;}
+  .hero h1 em{font-style:normal; color:var(--uv);}
+  .hero p.sub{font-size:17.5px; color:var(--ink-soft); max-width:460px; margin-bottom:30px;}
+  .hero-ctas{display:flex; gap:22px; align-items:center; flex-wrap:wrap;}
+  .btn-primary{background:var(--ink); color:var(--porcelain); padding:15px 26px; border-radius:12px; font-weight:500; font-size:15.5px; display:inline-flex; gap:8px; transition:.2s;}
+  .btn-primary:hover{transform:translateY(-2px); box-shadow:0 12px 28px rgba(18,23,43,.25); background:var(--uv);}
+  .badges{display:flex; gap:18px; font-size:12.5px; color:var(--steel); margin-top:20px; flex-wrap:wrap;}
+
+  .device-stage{position:relative; aspect-ratio:1/1; max-width:420px; margin:0 auto; display:flex; align-items:center; justify-content:center; cursor:pointer;}
+  .ring-bg{position:absolute; inset:0; border-radius:50%; background:radial-gradient(circle at 50% 40%, rgba(108,76,224,.14), transparent 65%);}
+  svg.ring{width:100%; height:100%; transform:rotate(-90deg);}
+  .ring-track{fill:none; stroke:rgba(18,23,43,.08); stroke-width:10;}
+  .ring-progress{fill:none; stroke:url(#gradUV); stroke-width:10; stroke-linecap:round; stroke-dasharray:754; stroke-dashoffset:754; transition:stroke-dashoffset 1.6s ease; filter:drop-shadow(0 0 10px rgba(108,76,224,.5));}
+  .device-stage.active .ring-progress{stroke-dashoffset:0;}
+  .ring-center{position:absolute; text-align:center; transition:opacity .3s;}
+  .ring-center .num{font-size:40px; font-weight:600; font-family:'Space Grotesk';}
+  .ring-center .lbl{font-size:12px; color:var(--steel); text-transform:uppercase; letter-spacing:.08em; margin-top:2px;}
+  .hover-hint{position:absolute; bottom:-2px; left:50%; transform:translateX(-50%); background:var(--ink); color:var(--porcelain); font-size:11.5px; padding:7px 14px; border-radius:999px; white-space:nowrap; transition:.3s;}
+  .device-stage.active .hover-hint{background:var(--uv);}
+
+  /* BEFORE/AFTER */
+  .toggle-card{background:var(--ink); border-radius:24px; padding:44px; display:grid; grid-template-columns:1fr 1fr; gap:32px; color:var(--porcelain);}
+  @media (max-width:760px){ .toggle-card{grid-template-columns:1fr;} }
+  .panel h3{font-size:15px; margin-bottom:16px; color:var(--steel); font-weight:500;}
+  .panel.after h3{color:var(--mint);}
+  .panel ul{list-style:none; display:flex; flex-direction:column; gap:12px;}
+  .panel li{font-size:15px; padding-left:22px; position:relative;}
+  .panel.before li::before{content:'–'; position:absolute; left:0; color:var(--danger);}
+  .panel.after li::before{content:'✓'; position:absolute; left:0; color:var(--mint);}
+
+  /* FEATURES */
+  .feat-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:2px; background:rgba(18,23,43,.08); border-radius:20px; overflow:hidden;}
+  @media (max-width:820px){ .feat-grid{grid-template-columns:1fr;} }
+  .feat{background:var(--porcelain); padding:32px 28px;}
+  .feat .ic{font-size:24px; margin-bottom:14px;}
+  .feat h3{font-size:18px; font-weight:600; margin-bottom:8px;}
+  .feat p{font-size:14.5px; color:var(--ink-soft);}
+
+  /* GALLERY / CLOSE-UPS */
+  .close-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:24px;}
+  @media (max-width:820px){ .close-grid{grid-template-columns:1fr;} }
+  .close-card{background:var(--porcelain-dim); border-radius:18px; padding:30px; border:1px solid rgba(18,23,43,.06);}
+  .close-card .idx{font-family:'IBM Plex Mono'; font-size:12px; color:var(--uv); margin-bottom:12px;}
+  .close-card h4{font-size:16.5px; font-weight:600; margin-bottom:8px;}
+  .close-card p{font-size:14px; color:var(--ink-soft);}
+
+  /* STEPS */
+  .steps{display:grid; grid-template-columns:repeat(3,1fr); gap:28px; margin-top:8px;}
+  @media (max-width:820px){ .steps{grid-template-columns:1fr;} }
+  .step .idx{font-family:'IBM Plex Mono'; font-size:13px; color:var(--steel); margin-bottom:10px;}
+  .step h4{font-size:17px; font-weight:600; margin-bottom:8px;}
+  .step p{font-size:14.5px; color:var(--ink-soft);}
+  .step-line{height:2px; background:linear-gradient(90deg,var(--uv),transparent); width:34px; margin-bottom:16px;}
+
+  /* TESTIMONIALS */
+  .review-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:22px;}
+  @media (max-width:820px){ .review-grid{grid-template-columns:1fr;} }
+  .review{background:var(--porcelain-dim); border-radius:18px; padding:28px; border:1px solid rgba(18,23,43,.06);}
+  .review .quote{font-size:15px; margin-bottom:16px; color:var(--ink);}
+  .review .who{font-size:13px; font-weight:600;}
+  .review .verified{font-size:12px; color:var(--steel);}
+
+  /* PRICING */
+  .pricing-shell{background:var(--ink); color:var(--porcelain); border-radius:28px; padding:48px; position:relative; overflow:hidden;}
+  .pricing-shell::before{content:''; position:absolute; top:-140px; right:-100px; width:340px; height:340px; border-radius:50%; background:radial-gradient(circle, rgba(108,76,224,.4), transparent 70%);}
+  .pricing-inner{position:relative; z-index:1; display:grid; grid-template-columns:1fr 1fr; gap:40px;}
+  @media (max-width:900px){ .pricing-inner{grid-template-columns:1fr;} }
+  .color-row{display:flex; gap:10px; margin:14px 0 26px;}
+  .swatch{width:30px; height:30px; border-radius:50%; border:2px solid rgba(255,255,255,.25); cursor:pointer; transition:.2s;}
+  .swatch.active{border-color:#fff; transform:scale(1.12);}
+  .bundle-list{display:flex; flex-direction:column; gap:12px;}
+  .bundle{border:1px solid rgba(255,255,255,.14); border-radius:14px; padding:16px 18px; display:flex; justify-content:space-between; align-items:center; cursor:pointer; transition:.2s;}
+  .bundle:hover{border-color:rgba(255,255,255,.35);}
+  .bundle.selected{border-color:var(--uv-glow); background:rgba(108,76,224,.14);}
+  .bundle .bl{display:flex; flex-direction:column; gap:3px;}
+  .bundle .name{font-weight:600; font-size:15px;}
+  .bundle .tag{font-size:11.5px; color:var(--mint);}
+  .bundle .amt{text-align:right;}
+  .bundle .amt .now{font-family:'Space Grotesk'; font-size:19px; font-weight:600;}
+  .bundle .amt .was{font-size:12px; color:var(--steel); text-decoration:line-through; margin-left:6px;}
+  .badge-popular{display:inline-block; font-size:11px; background:var(--uv); padding:3px 10px; border-radius:999px; margin-bottom:12px;}
+  .summary{display:flex; flex-direction:column; justify-content:center;}
+  .summary .amount{font-family:'Space Grotesk'; font-size:46px; font-weight:600;}
+  .summary .amount span{font-size:16px; color:#B6BAD1; font-weight:400;}
+  #checkout-btn{margin-top:18px; background:var(--uv); color:#fff; padding:16px 30px; border:none; border-radius:12px; font-size:15.5px; font-weight:500; cursor:pointer; font-family:'Inter'; display:inline-flex; align-items:center; gap:10px; transition:.2s; width:fit-content;}
+  #checkout-btn:hover{background:#5A3ECC; transform:translateY(-2px);}
+  #checkout-btn:disabled{opacity:.6; cursor:wait;}
+  .assurance{margin-top:12px; font-size:12.5px; color:#8890AC; display:flex; gap:16px;}
+
+  /* FAQ */
+  .faq-item{border-bottom:1px solid rgba(18,23,43,.1);}
+  .faq-q{padding:20px 4px; display:flex; justify-content:space-between; align-items:center; cursor:pointer; font-weight:500; font-size:15.5px;}
+  .faq-q .plus{transition:transform .25s; color:var(--uv); font-size:18px;}
+  .faq-item.open .plus{transform:rotate(45deg);}
+  .faq-a{max-height:0; overflow:hidden; transition:max-height .3s ease;}
+  .faq-a p{padding:0 4px 20px; font-size:14.5px; color:var(--ink-soft);}
+
+  /* CTA BANNER */
+  .cta-banner{text-align:center; padding:90px 0;}
+  .cta-banner h2{font-size:clamp(28px,4vw,40px); margin-bottom:14px;}
+  .cta-banner p{color:var(--ink-soft); margin-bottom:30px;}
+
+  footer{padding:32px 0; border-top:1px solid rgba(18,23,43,.08);}
+  footer .wrap{display:flex; justify-content:space-between; align-items:center; font-size:13px; color:var(--steel); flex-wrap:wrap; gap:12px;}
+  footer .legal{display:flex; gap:20px; flex-wrap:wrap;}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="logo"><span class="logo-dot"></span> Nova.WBX</div>
+    <div class="navlinks">
+      <a href="#features">Features</a><a href="#gallery">Gallery</a><a href="#reviews">Reviews</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a>
+    </div>
+    <div class="nav-right">
+      <div class="cart-btn">🛒<span class="cart-count" id="cart-count">0</span></div>
+      <a href="#pricing" class="nav-cta">Get Yours</a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="stars">⭐⭐⭐⭐⭐ 4.9/5 from 2,000+ happy homes 💙</div>
+      <h1>A cleaner smile<br>starts <em>here</em> ✨</h1>
+      <p class="sub">One little wall gadget that sterilizes every brush and dispenses toothpaste — so mornings feel lighter and bathrooms feel calmer.</p>
+      <div class="hero-ctas">
+        <a href="#pricing" class="btn-primary">Get Yours Today 💙</a>
+      </div>
+      <div class="badges"><span>✨ 30-day happiness guarantee</span><span>💧 Sticks to any wall</span></div>
+    </div>
+    <div class="device-stage" id="device-stage">
+      <div class="ring-bg"></div>
+      <svg class="ring" viewBox="0 0 260 260">
+        <defs>
+          <linearGradient id="gradUV" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#B9A6FF"/><stop offset="100%" stop-color="#6C4CE0"/>
+          </linearGradient>
+        </defs>
+        <circle class="ring-track" cx="130" cy="130" r="120"/>
+        <circle class="ring-progress" cx="130" cy="130" r="120"/>
+      </svg>
+      <div class="ring-center">
+        <div class="num mono" id="ring-num">UV·C</div>
+        <div class="lbl" id="ring-lbl">chamber idle</div>
+      </div>
+      <div class="hover-hint" id="hover-hint">Hover to preview the cycle</div>
+    </div>
+  </div>
+</section>
+
+<section id="proof">
+  <div class="wrap">
+    <div class="head">
+      <div class="eyebrow">😩 the struggle is real</div>
+      <h2>Bathroom counters, meet your glow-up ✨</h2>
+    </div>
+    <div class="toggle-card">
+      <div class="panel before">
+        <h3>BEFORE 😩</h3>
+        <ul>
+          <li>Toothbrushes piled in a messy cup</li>
+          <li>Germs building up between brushes</li>
+          <li>Toothpaste smeared all over the sink</li>
+        </ul>
+      </div>
+      <div class="panel after">
+        <h3>AFTER 🥰</h3>
+        <ul>
+          <li>UV-C sterilization, every single use</li>
+          <li>Every brush has its own tidy home</li>
+          <li>One press for perfectly portioned toothpaste</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="features">
+  <div class="wrap">
+    <div class="head">
+      <div class="eyebrow">💜 why everyone's obsessed</div>
+      <h2>Small gadget, big glow-up energy ✨</h2>
+    </div>
+    <div class="feat-grid">
+      <div class="feat"><div class="ic">💜</div><h3>UV Light Sterilization</h3><p>Zaps away everyday germs on brush heads with every cycle.</p></div>
+      <div class="feat"><div class="ic">👨‍👩‍👧‍👦</div><h3>Family Brush Storage</h3><p>A cozy little slot for everyone — no more mix-ups.</p></div>
+      <div class="feat"><div class="ic">🫧</div><h3>Auto Toothpaste Dispenser</h3><p>One press, perfect amount, zero mess on the counter.</p></div>
+      <div class="feat"><div class="ic">🧱</div><h3>Wall-Mounted Space Saver</h3><p>Frees up the counter and looks adorable doing it.</p></div>
+      <div class="feat"><div class="ic">🧽</div><h3>Easy-Clean Design</h3><p>Wipeable surfaces, no fussy parts to disassemble.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="gallery">
+  <div class="wrap">
+    <div class="head">
+      <div class="eyebrow">🔍 up close</div>
+      <h2>Every detail, designed to feel good 💜</h2>
+    </div>
+    <div class="close-grid">
+      <div class="close-card"><div class="idx">01</div><h4>UV-C chamber</h4><p>Enclosed and safe — glows quietly while it works.</p></div>
+      <div class="close-card"><div class="idx">02</div><h4>Soft-press dispenser</h4><p>One tap for a perfect, mess-free amount.</p></div>
+      <div class="close-card"><div class="idx">03</div><h4>Rounded, wipeable shell</h4><p>No sharp edges, no fuss to clean.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="install">
+  <div class="wrap">
+    <div class="head">
+      <div class="eyebrow">🧷 so easy, promise</div>
+      <h2>How it works ✨</h2>
+    </div>
+    <div class="steps">
+      <div class="step"><div class="step-line"></div><div class="idx">1</div><h4>Mount it 🧷</h4><p>Peel, stick, done — no tools needed.</p></div>
+      <div class="step"><div class="step-line"></div><div class="idx">2</div><h4>Insert toothbrushes 🪥</h4><p>Everyone gets their own glowing slot.</p></div>
+      <div class="step"><div class="step-line"></div><div class="idx">3</div><h4>Press & sanitize ✨</h4><p>UV cycle starts automatically. That's it!</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="reviews">
+  <div class="wrap">
+    <div class="head">
+      <div class="eyebrow">💙 loved by real families</div>
+      <h2>They said it best 💙</h2>
+    </div>
+    <div class="review-grid">
+      <div class="review"><div class="quote">"My bathroom finally feels organized. Wish I bought this sooner."</div><div class="who">Ariana M.</div><div class="verified">Verified customer</div></div>
+      <div class="review"><div class="quote">"Kids actually use it without me reminding them. Game changer for our mornings."</div><div class="who">Jordan P.</div><div class="verified">Verified customer</div></div>
+      <div class="review"><div class="quote">"So cute on the wall and genuinely useful?? Did not expect to love a toothbrush holder this much."</div><div class="who">Casey L.</div><div class="verified">Verified customer</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="wrap">
+    <div class="head">
+      <div class="eyebrow">💸 simple pricing</div>
+      <h2>Pick your set 💙</h2>
+    </div>
+    <div class="pricing-shell">
+      <div class="pricing-inner">
+        <div>
+          <div class="badge-popular">Most Popular 💙 · Family Pack</div>
+          <div style="font-size:13px;color:#B6BAD1;margin-bottom:6px;">Pick a color</div>
+          <div class="color-row" id="color-row">
+            <div class="swatch active" style="background:#F7F8FA" data-color="Porcelain White"></div>
+            <div class="swatch" style="background:#6C4CE0" data-color="UV Violet"></div>
+            <div class="swatch" style="background:#8FE3C7" data-color="Mint"></div>
+            <div class="swatch" style="background:#12172B" data-color="Ink Black"></div>
+          </div>
+          <div class="bundle-list" id="bundle-list">
+            <div class="bundle" data-key="single" data-price="79" data-compare="119">
+              <div class="bl"><span class="name">Single Unit</span></div>
+              <div class="amt"><span class="now">$79</span><span class="was">$119</span></div>
+            </div>
+            <div class="bundle" data-key="bogo" data-price="79" data-compare="238">
+              <div class="bl"><span class="name">Buy 1, Get 1 Free</span><span class="tag">Save 67%</span></div>
+              <div class="amt"><span class="now">$79</span><span class="was">$238</span></div>
+            </div>
+            <div class="bundle selected" data-key="family" data-price="158" data-compare="476">
+              <div class="bl"><span class="name">Family Pack</span><span class="tag">Buy 3, Get 3 Free</span></div>
+              <div class="amt"><span class="now">$158</span><span class="was">$476</span></div>
+            </div>
+            <div class="bundle" data-key="best" data-price="237" data-compare="714">
+              <div class="bl"><span class="name">Best Value</span><span class="tag">Buy 3, Get 3 Free</span></div>
+              <div class="amt"><span class="now">$237</span><span class="was">$714</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="summary">
+          <div style="font-size:13px;color:#B6BAD1;margin-bottom:6px;" id="summary-label">Family Pack · Porcelain White</div>
+          <div class="amount" id="summary-amount">$158<span>.00</span></div>
+          <button id="checkout-btn">Add to Cart 🛒</button>
+          <div class="assurance"><span>✨ 30-day guarantee</span><span>📦 Fast shipping</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <div class="head">
+      <div class="eyebrow">💡 good to know</div>
+      <h2>Questions, answered 💬</h2>
+    </div>
+    <div id="faq-list">
+      <div class="faq-item open">
+        <div class="faq-q"><span>Does the UV light actually work?</span><span class="plus">+</span></div>
+        <div class="faq-a"><p>Yes! The built-in UV-C light is designed to reduce everyday germs on brush heads with each cycle. It's a hygiene helper, not a medical device, and doesn't replace replacing your brush every few months.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span>Is it safe for kids?</span><span class="plus">+</span></div>
+        <div class="faq-a"><p>Yes — the UV chamber is fully enclosed and only activates when the drawer is closed, so there's no direct exposure during normal use.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span>How do I install it?</span><span class="plus">+</span></div>
+        <div class="faq-a"><p>Peel the adhesive backing, press the unit firmly to a clean, dry wall for 30 seconds, and let it set for 24 hours before loading brushes.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span>How often do I replace parts?</span><span class="plus">+</span></div>
+        <div class="faq-a"><p>The toothpaste cartridge typically lasts 4–6 weeks per household; replacements are available separately.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-banner">
+  <div class="wrap">
+    <h2>Upgrade your bathroom in seconds ✨</h2>
+    <p>Join thousands of families who made mornings just a little more delightful.</p>
+    <a href="#pricing" class="btn-primary">Order Now</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>© 2026 Nova.WBX. All rights reserved.</div>
+    <div class="legal">
+      <a href="#">Terms & Conditions</a><a href="#">Legal Notice</a><a href="#">Shipping & Returns</a><a href="#">Privacy Policy</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ------------------------------------------------------------------
+  // HOVER-TO-PREVIEW UV CYCLE
+  // ------------------------------------------------------------------
+  const stage = document.getElementById('device-stage');
+  const ringNum = document.getElementById('ring-num');
+  const ringLbl = document.getElementById('ring-lbl');
+  const hoverHint = document.getElementById('hover-hint');
+  stage.addEventListener('mouseenter', () => {
+    stage.classList.add('active');
+    ringNum.textContent = '99.9%';
+    ringLbl.textContent = 'bacteria eliminated';
+    hoverHint.textContent = '◐ sterilizing now';
+  });
+  stage.addEventListener('mouseleave', () => {
+    stage.classList.remove('active');
+    ringNum.textContent = 'UV·C';
+    ringLbl.textContent = 'chamber idle';
+    hoverHint.textContent = 'Hover to preview the cycle';
+  });
+
+  // ------------------------------------------------------------------
+  // FAQ ACCORDION
+  // ------------------------------------------------------------------
+  document.querySelectorAll('.faq-item').forEach(item => {
+    const a = item.querySelector('.faq-a');
+    if (item.classList.contains('open')) a.style.maxHeight = a.scrollHeight + 'px';
+    item.querySelector('.faq-q').addEventListener('click', () => {
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => { i.classList.remove('open'); i.querySelector('.faq-a').style.maxHeight = null; });
+      if (!isOpen) { item.classList.add('open'); a.style.maxHeight = a.scrollHeight + 'px'; }
+    });
+  });
+
+  // ------------------------------------------------------------------
+  // BUNDLE + COLOR SELECTION
+  // ------------------------------------------------------------------
+  let selectedColor = 'Porcelain White';
+  let selectedBundle = { key: 'family', name: 'Family Pack', price: 158 };
+
+  document.querySelectorAll('.swatch').forEach(sw => {
+    sw.addEventListener('click', () => {
+      document.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
+      sw.classList.add('active');
+      selectedColor = sw.dataset.color;
+      updateSummary();
+    });
+  });
+
+  document.querySelectorAll('.bundle').forEach(b => {
+    b.addEventListener('click', () => {
+      document.querySelectorAll('.bundle').forEach(x => x.classList.remove('selected'));
+      b.classList.add('selected');
+      selectedBundle = { key: b.dataset.key, name: b.querySelector('.name').textContent, price: Number(b.dataset.price) };
+      updateSummary();
+    });
+  });
+
+  function updateSummary(){
+    document.getElementById('summary-label').textContent = `${selectedBundle.name} · ${selectedColor}`;
+    document.getElementById('summary-amount').innerHTML = `$${selectedBundle.price}<span>.00</span>`;
+  }
+
+  // ------------------------------------------------------------------
+  // CHECKOUT — SAFE PATTERN, SHIPPING ADDRESS COLLECTED BY STRIPE
+  //
+  // Create ONE Stripe Payment Link per bundle below (Dashboard →
+  // Payment Links → New). For each link, turn ON "Collect customer's
+  // shipping address" in its settings — Stripe's own hosted checkout
+  // page will then ask for the delivery address, validate it, and
+  // show it to you in the Dashboard / via webhook. No backend, and
+  // your secret key never has to appear in this file.
+  //
+  // Optional: add a "Color" custom field (dropdown) on each Payment
+  // Link if you want the buyer's color choice captured at checkout —
+  // otherwise treat the on-page picker as a preview/preference only.
+  // ------------------------------------------------------------------
+  const PAYMENT_LINKS = {
+    single: "",  // <-- paste Payment Link URL for "Single Unit ($79)"
+    bogo:   "",  // <-- paste Payment Link URL for "Buy 1 Get 1 ($79)"
+    family: "",  // <-- paste Payment Link URL for "Family Pack ($158)"
+    best:   "",  // <-- paste Payment Link URL for "Best Value ($237)"
+  };
+
+  const checkoutBtn = document.getElementById('checkout-btn');
+  checkoutBtn.addEventListener('click', () => {
+    const link = PAYMENT_LINKS[selectedBundle.key];
+    if (link) {
+      window.location.href = link;
+    } else {
+      alert(`Checkout isn't wired up yet for "${selectedBundle.name}" — paste its Stripe Payment Link URL into PAYMENT_LINKS in the script tag.`);
+    }
+  });
+</script>
+
+</body>
+</html>
